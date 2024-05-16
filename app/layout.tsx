@@ -4,7 +4,7 @@ import "./globals.css";
 
 
 export const metadata: Metadata = {
-  title: "sketchTogether",
+  title: "Sketch Together",
   description: "A game to play together, just you and your special someone.",
 };
 
