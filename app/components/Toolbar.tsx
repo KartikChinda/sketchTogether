@@ -15,7 +15,7 @@ const Toolbox = () => {
                 <div className='flex'>
                     {colors.map((col) => {
                         return (
-                            <div id={col} className='border-2 p-1 m-2 border-white h-[30px] w-[30px] rounded-md hover:border-[#FDB827] ' style={{ backgroundColor: col }}></div>
+                            <div id={col} className='border-2 p-1 m-2 border-white h-[30px] w-[30px] rounded-md hover:border-[#FDB827] hover:cursor-pointer ' style={{ backgroundColor: col }}></div>
                         )
                     })}
                 </div>
