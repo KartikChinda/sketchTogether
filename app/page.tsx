@@ -6,10 +6,10 @@ import Toolbox from "./components/Toolbar";
 
 export default function Home() {
 
-  const [viewModel, setviewModel] = useState(true)
+  const [viewModel, setviewModel] = useState<boolean>(true)
 
 
-  const handleModel = () => {
+  const handleModel = (): void => {
     setviewModel(false);
   }
 
