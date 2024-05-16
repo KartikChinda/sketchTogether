@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 
 
@@ -14,8 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-[#F1F1F1]">{children}</body>
-    </html>
+    <Provider store={store}>
+      <html lang="en">
+        <body className="bg-[#F1F1F1]">{children}</body>
+      </html>
+    </Provider>
   );
 }
