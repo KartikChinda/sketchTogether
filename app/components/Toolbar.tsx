@@ -1,16 +1,25 @@
 import React from 'react'
 import { colors } from '../contants'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
+import { changeColor, changeSize } from '../slice/toolsSlice'
 
 const Toolbox = () => {
 
+    // redux stuff 
+    const dispatch = useDispatch();
 
     const activeMenuItem = useSelector((state: RootState) => state.menu.activeMenuItem)
 
-    const handleBrushSize = () => {
-
+    const handleBrushSize = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(changeSize({ item: activeMenuItem, size: e.target.value }))
     }
+
+    const handleColorChange = (newColor: string) => {
+        dispatch(changeColor({ item: activeMenuItem, color: newColor }))
+    }
+
+
 
 
 
@@ -20,13 +29,13 @@ const Toolbox = () => {
                 {activeMenuItem === 'pencil' && <div className='flex'>
                     {colors.map((col) => {
                         return (
-                            <div id={col} className='border-2 p-1 m-2 border-white h-[30px] w-[30px] rounded-md hover:border-[#FDB827] hover:cursor-pointer ' style={{ backgroundColor: col }}></div>
+                            <div id={col} className='border-2 p-1 m-2 border-white h-[30px] w-[30px] rounded-md hover:border-[#FDB827] hover:cursor-pointer ' style={{ backgroundColor: col }} onClick={() => handleColorChange(col)}></div>
                         )
                     })}
                 </div>}
 
 
-                <input className='md:ml-10 mt-4 md:mt-0' type="range" min={1} max={10} step={1} onChange={handleBrushSize} />
+                <input className='md:ml-10 mt-4 md:mt-0' type="range" min={1} max={20} step={2} onChange={(e) => handleBrushSize(e)} />
             </div>
             <div>
 

@@ -11,7 +11,7 @@ const initialState = {
     [menuItems.ERASER]: {
         // default screen color
         color: "#F1F1F1",
-        size: 4
+        size: 6,
     },
     [menuItems.UNDO]: {
 
