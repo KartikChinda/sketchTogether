@@ -11,6 +11,10 @@ const Board = () => {
     const canvasRef = useRef(null);
     const shouldDraw = useRef(false);
 
+    // for undo redo functionality. 
+    const historyPointer = useRef(0);
+    const historyStore: any = useRef([]);
+
 
 
 
@@ -28,6 +32,14 @@ const Board = () => {
             context.fillStyle = '#F1F1F1';
             context.fillRect(0, 0, canvas.width, canvas.height);
         }
+
+        // so we can store a blank canvas. 
+        if (context !== null) {
+            const firstBlankImage = context.getImageData(0, 0, canvas.width, canvas.height);
+            historyStore.current.push(firstBlankImage);
+            historyPointer.current = historyStore.current.length - 1;
+        }
+
 
         // We need three listeners to draw successfully, mouse Down, mouse drag, and mouse Release. Also, we add listeners to the reference, not the context. 
 
@@ -48,6 +60,17 @@ const Board = () => {
         // this is different from the other e type we added, becase this is not a react event but an event listener. 
         const handleMouseUp = (e: MouseEvent) => {
             shouldDraw.current = false;
+
+            // to update the historyStore ie history of canvas with each draw. 
+            if (context !== null) {
+                const currImage = context.getImageData(0, 0, canvas.width, canvas.height);
+
+                // why did we not use push pop here? Cant do redo w it. 
+
+                historyStore.current.push(currImage);
+                historyPointer.current = historyStore.current.length - 1;
+            }
+
         }
 
         canvas.addEventListener('mousedown', handleMouseDown);
@@ -84,10 +107,11 @@ const Board = () => {
     }, [color, size])
 
 
-    // download feature 
+    // Download, Undo and Redo features. 
 
     // We are creating a dispatch here, explained further why. 
     const dispatch = useDispatch();
+
 
 
     useEffect(() => {
@@ -104,13 +128,25 @@ const Board = () => {
             anchor.download = 'yourSketch.jpg';
             anchor.click();
 
-            // now, this will download your image, but if you make changes and click on download again, nothing will happen. This is because this useEffect works on the change in the actionMenuItem, which will still be DOWNLOAD. So, after each download, it must be set to NULL. 
-            dispatch(actionitemClick(null));
+
+        } else if (actionMenuItem === menuItems.UNDO || actionMenuItem === menuItems.REDO) {
+            if (actionMenuItem === menuItems.UNDO && historyPointer.current >= 0) historyPointer.current -= 1;
+            if (actionMenuItem === menuItems.REDO && historyPointer.current < historyStore.current.length - 1) historyPointer.current += 1;
+
+
+            const currCanvasImage = historyStore.current[historyPointer.current];
+            // takes in the image, and starting x annd starting y. 
+            if (context !== null) context.putImageData(currCanvasImage, 0, 0);
         }
+
+        // now, this will download your image, but if you make changes and click on download again, nothing will happen. This is because this useEffect works on the change in the actionMenuItem, which will still be DOWNLOAD. So, after each download, it must be set to NULL. 
+        dispatch(actionitemClick(null));
 
 
 
     }, [actionMenuItem])
+
+
 
 
 
