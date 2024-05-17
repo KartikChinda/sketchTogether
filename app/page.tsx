@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <>
-      <div>
+      <div className=" overflow-x-hidden">
         {viewModel && <Model handleClick={handleModel} />}
         <MenuCard />
         <Toolbox />
