@@ -130,7 +130,7 @@ const Board = () => {
 
 
         } else if (actionMenuItem === menuItems.UNDO || actionMenuItem === menuItems.REDO) {
-            if (actionMenuItem === menuItems.UNDO && historyPointer.current >= 0) historyPointer.current -= 1;
+            if (actionMenuItem === menuItems.UNDO && historyPointer.current > 0) historyPointer.current -= 1;
             if (actionMenuItem === menuItems.REDO && historyPointer.current < historyStore.current.length - 1) historyPointer.current += 1;
 
 

@@ -8,7 +8,7 @@ import { menuItems } from '../contants';
 
 const MenuCard = () => {
 
-    const [clickedItem, setclickedItem] = useState("")
+    const [clickedItem, setclickedItem] = useState("pencil")
 
 
     // for redux 

@@ -37,7 +37,7 @@ const Toolbox = () => {
                 </div>}
 
 
-                <input className='md:ml-10 mt-4 md:mt-0' type="range" min={1} max={20} step={2} onChange={(e) => handleBrushSize(e)} value={size} />
+                <input className='md:ml-10 mt-4 md:mt-0 p-0' type="range" min={1} max={20} step={1} onChange={(e) => handleBrushSize(e)} value={size} />
             </div>
             <div>
 
