@@ -1,4 +1,4 @@
-"use client";
+
 import { createSlice } from "@reduxjs/toolkit";
 import { menuItems } from "../contants";
 // Slices in redux are essentially a collection of action logic for a given component (menu here). In a nutshell, it is a glorified way or writing organised code. 
