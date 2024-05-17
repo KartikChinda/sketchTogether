@@ -11,6 +11,8 @@ const Toolbox = () => {
 
     const activeMenuItem = useSelector((state: RootState) => state.menu.activeMenuItem)
 
+    const { color, size } = useSelector((state: RootState) => state.toolbox[activeMenuItem])
+
     const handleBrushSize = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(changeSize({ item: activeMenuItem, size: e.target.value }))
     }
@@ -35,7 +37,7 @@ const Toolbox = () => {
                 </div>}
 
 
-                <input className='md:ml-10 mt-4 md:mt-0' type="range" min={1} max={20} step={2} onChange={(e) => handleBrushSize(e)} />
+                <input className='md:ml-10 mt-4 md:mt-0' type="range" min={1} max={20} step={2} onChange={(e) => handleBrushSize(e)} value={size} />
             </div>
             <div>
 
