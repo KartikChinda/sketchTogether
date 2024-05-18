@@ -7,11 +7,14 @@ import Board from "./components/Board";
 
 export default function Home() {
 
+
   const [viewModel, setviewModel] = useState<boolean>(true)
+  const [startTimer, setstartTimer] = useState<boolean>(false)
 
 
   const handleModel = (): void => {
     setviewModel(false);
+    setstartTimer(true);
   }
 
 
@@ -20,7 +23,7 @@ export default function Home() {
       <div className=" overflow-x-hidden">
         {viewModel && <Model handleClick={handleModel} />}
         <MenuCard />
-        <Toolbox />
+        {startTimer && <Toolbox />}
         <Board />
       </div>
     </>
