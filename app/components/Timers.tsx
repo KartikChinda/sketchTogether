@@ -4,8 +4,8 @@ import PlayerModel from './PlayerModel';
 
 const Timers = () => {
 
-    const [minutes, setminutes] = useState<number>(0)
-    const [seconds, setseconds] = useState<number>(4)
+    const [minutes, setminutes] = useState<number>(9)
+    const [seconds, setseconds] = useState<number>(59)
     const [isTimerActive, setisTimerActive] = useState<boolean>(true)
     const [showComponent, setshowComponent] = useState<boolean>(false)
 
@@ -34,8 +34,10 @@ const Timers = () => {
 
     useEffect(() => {
         setplayerOnePlays(!playerOnePlays);
-        // console.log("Player one plays: ", playerOnePlays)
-        setshowComponent(true);
+        if (minutes === 0) setshowComponent(false);
+        else {
+            setshowComponent(true);
+        }
 
         const toRef = setTimeout(() => {
             clearTimeout(toRef);
@@ -57,8 +59,8 @@ const Timers = () => {
                 </div>
                 <div>
                     {isTimerActive ? <div className='text-md font-medium text-[#FDB827] ml-2 mt-2'>
-                        <span className='font-bold'>{playerOnePlays ? "Player 1" : "Player 2"}</span> drawing.
-                    </div> : <div className='text-md text-[#FDB827] text-center md:hidden'>Download your sketch by clicking on the download button in the menu. </div>}
+                        <span className='font-bold'>{playerOnePlays ? "Player 1" : "Player 2"}</span>'s turn.
+                    </div> : <div className='text-md text-[#FDB827] text-center md:hidden'>Download your masterpiece by clicking on the download button in the menu. </div>}
                 </div>
 
 
