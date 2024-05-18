@@ -32,6 +32,7 @@ const Timers = () => {
         }
     },)
 
+    // used for the playerTurn component to load up. 
     useEffect(() => {
         setplayerOnePlays(!playerOnePlays);
         if (minutes === 0) setshowComponent(false);
