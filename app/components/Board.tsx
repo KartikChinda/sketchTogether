@@ -40,25 +40,35 @@ const Board = () => {
             historyPointer.current = historyStore.current.length - 1;
         }
 
+        const getPointerPosition = (e: MouseEvent | TouchEvent) => {
+            const touch = (e as TouchEvent).touches ? (e as TouchEvent).touches[0] : null;
+            return {
+                clientX: touch ? touch.clientX : (e as MouseEvent).clientX,
+                clientY: touch ? touch.clientY : (e as MouseEvent).clientY,
+            };
+        };
 
         // We need three listeners to draw successfully, mouse Down, mouse drag, and mouse Release. Also, we add listeners to the reference, not the context. 
 
-        const handleMouseDown = (e: MouseEvent) => {
+        const handlePenDown = (e: MouseEvent | TouchEvent) => {
             shouldDraw.current = true;
             // init the Canvas
+            const { clientX, clientY } = getPointerPosition(e);
             context?.beginPath();
-            context?.moveTo(e.clientX, e.clientY)
+
+            context?.moveTo(clientX, clientY)
         }
 
-        const handleMouseMove = (e: MouseEvent) => {
+        const handlePenMove = (e: MouseEvent | TouchEvent) => {
             if (!shouldDraw.current) return;
-            // this is boilerplate on how you atr supposed to use canvasAPI. 
-            context?.lineTo(e.clientX, e.clientY);
+            // this is boilerplate on how you atr supposed to use canvasAPI.
+            const { clientX, clientY } = getPointerPosition(e);
+            context?.lineTo(clientX, clientY);
             context?.stroke();
         }
 
         // this is different from the other e type we added, becase this is not a react event but an event listener. 
-        const handleMouseUp = (e: MouseEvent) => {
+        const handlePenUp = (e: MouseEvent | TouchEvent) => {
             shouldDraw.current = false;
 
             // to update the historyStore ie history of canvas with each draw. 
@@ -73,15 +83,21 @@ const Board = () => {
 
         }
 
-        canvas.addEventListener('mousedown', handleMouseDown);
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseup', handleMouseUp);
+        canvas.addEventListener('mousedown', handlePenDown);
+        canvas.addEventListener('mousemove', handlePenMove);
+        canvas.addEventListener('mouseup', handlePenUp);
+        canvas.addEventListener('touchstart', handlePenDown);
+        canvas.addEventListener('touchmove', handlePenMove);
+        canvas.addEventListener('touchend', handlePenUp);
 
         return () => {
             // got to clean up after our own mess. 
-            canvas.removeEventListener('mousedown', handleMouseDown);
-            canvas.removeEventListener('mousemove', handleMouseMove);
-            canvas.removeEventListener('mouseup', handleMouseUp);
+            canvas.removeEventListener('mousedown', handlePenDown);
+            canvas.removeEventListener('mousemove', handlePenMove);
+            canvas.removeEventListener('mouseup', handlePenUp);
+            canvas.removeEventListener('touchstart', handlePenDown);
+            canvas.removeEventListener('touchmove', handlePenMove);
+            canvas.removeEventListener('touchend', handlePenUp);
         }
 
 
