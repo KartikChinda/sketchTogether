@@ -17,7 +17,6 @@ const Board = () => {
 
 
 
-
     // useELayoutEffect because we want the width and height to be manipulated before we even manipulate colors and sizes.  
     useLayoutEffect(() => {
         // typescript trivia: if you didnt have the ! statement, you would have needed to specify the type of canvas as a HTMLelement | null. 
@@ -51,6 +50,7 @@ const Board = () => {
         // We need three listeners to draw successfully, mouse Down, mouse drag, and mouse Release. Also, we add listeners to the reference, not the context. 
 
         const handlePenDown = (e: MouseEvent | TouchEvent) => {
+            e.preventDefault();
             shouldDraw.current = true;
             // init the Canvas
             const { clientX, clientY } = getPointerPosition(e);
@@ -60,7 +60,9 @@ const Board = () => {
         }
 
         const handlePenMove = (e: MouseEvent | TouchEvent) => {
+
             if (!shouldDraw.current) return;
+            e.preventDefault();
             // this is boilerplate on how you atr supposed to use canvasAPI.
             const { clientX, clientY } = getPointerPosition(e);
             context?.lineTo(clientX, clientY);
@@ -70,7 +72,7 @@ const Board = () => {
         // this is different from the other e type we added, becase this is not a react event but an event listener. 
         const handlePenUp = (e: MouseEvent | TouchEvent) => {
             shouldDraw.current = false;
-
+            e.preventDefault();
             // to update the historyStore ie history of canvas with each draw. 
             if (context !== null) {
                 const currImage = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -99,6 +101,8 @@ const Board = () => {
             canvas.removeEventListener('touchmove', handlePenMove);
             canvas.removeEventListener('touchend', handlePenUp);
         }
+
+
 
 
     }, [])
@@ -169,7 +173,7 @@ const Board = () => {
 
     return (
         <>
-            <canvas ref={canvasRef}></canvas>
+            <canvas className=" touch-none" ref={canvasRef}></canvas>
         </>
     )
 }
